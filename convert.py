@@ -49,7 +49,7 @@ if __name__ == "__main__":
     print("Processing text...")
     titles, srcs, tgts = [], [], []
 
-    if arg.use_txt:
+    if args.use_txt:
         title, src, tgt = args.txt.strip().split("|")
         titles.append(title)
         srcs.append(src)
