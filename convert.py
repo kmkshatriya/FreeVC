@@ -19,8 +19,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--hpfile", type=str, default="configs/freevc.json", help="path to json config file")
     parser.add_argument("--ptfile", type=str, default="checkpoints/freevc.pth", help="path to pth file")
-    parser.add_argument("--txt", type=str, default="output|results/content.wav|results/voice.wav", help="output|content file|voice file")
-    parser.add_argument("--outdir", type=str, default="output/freevc", help="path to output dir")
+    parser.add_argument("--txt", type=str, default="speech|results/content.wav|results/voice.wav", help="output|content file|voice file")
+    parser.add_argument("--outdir", type=str, default="results", help="path to output dir")
     parser.add_argument("--use_timestamp", default=False, action="store_true")
     args = parser.parse_args()
     
