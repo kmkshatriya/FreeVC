@@ -19,14 +19,17 @@ if __name__ == "__main__":
     parser.add_argument("--hpfile", type=str, default="configs/freevc.json", help="path to json config file")
     parser.add_argument("--ptfile", type=str, default="checkpoints/freevc.pth", help="path to pth file")
     parser.add_argument("--txtpath", type=str, default="convert.txt", help="path to txt file")
+    parser.add_argument("--txt", type=str, default="speech|results/content.wav|results/voice.wav", help="output|content file|voice file")
     parser.add_argument("--outdir", type=str, default="output/freevc", help="path to output dir")
     parser.add_argument("--use_timestamp", default=False, action="store_true")
+    parser.add_argument('--use_txt', default=False, action='store_true', help='A flag to choose between txt and txtpath')
+
     args = parser.parse_args()
     
     os.makedirs(args.outdir, exist_ok=True)
     hps = utils.get_hparams_from_file(args.hpfile)
 
-    print("Loading model...")
+    print("Loading model...")a
     net_g = SynthesizerTrn(
         hps.data.filter_length // 2 + 1,
         hps.train.segment_size // hps.data.hop_length,
@@ -44,12 +47,18 @@ if __name__ == "__main__":
 
     print("Processing text...")
     titles, srcs, tgts = [], [], []
-    with open(args.txtpath, "r") as f:
-        for rawline in f.readlines():
-            title, src, tgt = rawline.strip().split("|")
-            titles.append(title)
-            srcs.append(src)
-            tgts.append(tgt)
+    if args.use_txt:
+        title, src, tgt = args.txt.strip().split("|")
+        titles.append(title)
+        srcs.append(src)
+        tgts.append(tgt)
+    else:
+        with open(args.txtpath, "r") as f:
+            for rawline in f.readlines():
+                title, src, tgt = rawline.strip().split("|")
+                titles.append(title)
+                srcs.append(src)
+                tgts.append(tgt)
 
     print("Synthesizing...")
     with torch.no_grad():
